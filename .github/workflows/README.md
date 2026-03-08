@@ -39,9 +39,29 @@ This directory contains CI/CD workflows for the BGCE Archive project.
 | Workflow | Type | Purpose | Triggers |
 |----------|------|---------|----------|
 | `build-and-push.yml` | Orchestrator | Main CI/CD pipeline | Push, PR, Tags |
+| `manual-build-all.yml` | Manual | Build & push all 5 services at once | workflow_dispatch |
 | `commit-lint.yml` | Standalone | Validate commit messages | Push, PR |
 | `docs.yml` | Standalone | Build documentation | Push to docs |
 | `go-tests.yml` | Standalone | Run Go tests | Push, PR |
+
+### 🛠️ Manual Per-Service Build Workflows
+
+Each workflow below allows manually building and pushing a single service's Docker image independently.
+
+| Workflow | Service | Purpose | Triggers |
+|----------|---------|---------|----------|
+| `build-and-push-archive-admin.yml` | archive-admin | Build & push archive-admin image | workflow_dispatch |
+| `build-and-push-archive-client.yml` | archive-client | Build & push archive-client image | workflow_dispatch |
+| `build-and-push-cortex.yml` | cortex | Build & push cortex image | workflow_dispatch |
+| `build-and-push-postal.yml` | postal | Build & push postal image | workflow_dispatch |
+| `build-and-push-community.yml` | community | Build & push community image | workflow_dispatch |
+
+**Inputs (all per-service workflows share the same inputs):**
+```yaml
+environment:      # staging (default) | production
+trigger-deployment: # true (default) | false — trigger infra deployment after build
+image-tag:        # Docker image tag, defaults to 'latest'
+```
 
 ### 🔄 Reusable Workflows
 
